@@ -6,8 +6,10 @@ app.get('/', (req, res) => {
   res.send('Hello DevOps World!');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
+// Only start server if run directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
 module.exports = app; // For testing
