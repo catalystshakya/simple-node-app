@@ -3,18 +3,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
         stage('Test') {
             steps {
-                sh 'npm test'
+                bat 'npm test'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'docker build -t simple-node-app .'
-                sh 'docker run -d -p 3000:3000 simple-node-app'
+                bat 'docker build -t simple-node-app .'
+                bat 'docker run -d -p 3000:3000 simple-node-app'
             }
         }
     }
