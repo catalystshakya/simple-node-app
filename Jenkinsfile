@@ -35,7 +35,7 @@ pipeline {
                 // Run app in background
                 bat 'start /b node app.js'
                 // Wait a bit to let app start
-                sleep time: 10, unit: 'SECONDS'
+                sleep time: 30, unit: 'SECONDS'
                 echo 'App should be running on http://localhost:3000'
             }
         }
