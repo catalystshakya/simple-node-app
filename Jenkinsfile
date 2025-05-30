@@ -1,20 +1,42 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
                 bat 'npm install'
             }
         }
+
         stage('Test') {
             steps {
                 bat 'npm test'
             }
         }
+
+        stage('Code Quality') {
+            steps {
+                // Run ESLint for code quality check, but don't fail pipeline on lint errors
+                bat 'npx eslint . || exit 0'
+            }
+        }
+
+        stage('Security') {
+            steps {
+                // Run npm audit and save report
+                bat 'npm audit --json > audit-report.json'
+                echo 'Security audit report generated: audit-report.json'
+            }
+        }
+
         stage('Deploy') {
             steps {
-                bat 'docker build -t simple-node-app .'
-                bat 'docker run -d -p 3000:3000 simple-node-app'
+                echo 'Starting app for testing...'
+                // Run app in background
+                bat 'start /b node app.js'
+                // Wait a bit to let app start
+                sleep time: 10, unit: 'SECONDS'
+                echo 'App should be running on http://localhost:3000'
             }
         }
     }
